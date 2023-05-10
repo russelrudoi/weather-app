@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useCallback, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { useAppDispatch } from './hooks/redux';
+import fetchCurrentWeather from './store/thunks/fetchCurrentWeather';
+import { getAllFromLocalStorage } from './services/localStorageService';
+import { Container } from '@mui/material';
+import MainPage from './pages/MainPage';
+import SingleWeatherPage from './pages/SingleWeatherPage';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const dispatch = useAppDispatch();
+
+    const fetchAllWeather = useCallback(
+        (arr: string[]) => {
+            arr.forEach(id => {
+                dispatch(fetchCurrentWeather(id));
+            });
+        },
+        [dispatch]
+    );
+
+    useEffect(() => {
+        fetchAllWeather(getAllFromLocalStorage());
+    }, [fetchAllWeather]);
+
+    return (
+        <Container>
+            <Routes>
+                <Route path='/' element={<MainPage />} />
+                <Route path=':id' element={<SingleWeatherPage />} />
+            </Routes>
+        </Container>
+    );
+};
 
 export default App;
