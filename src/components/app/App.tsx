@@ -29,8 +29,8 @@ const App = () => {
                 Weather app
             </Typography>
             <Routes>
-                <Route path='/' element={<MainPage />} />
-                <Route path='/:id' element={<SingleWeatherPage />} />
+                <Route path='weather-app/' element={<MainPage />} />
+                <Route path='weather-app/:id' element={<SingleWeatherPage />} />
             </Routes>
         </Container>
     );
