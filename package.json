@@ -2,7 +2,7 @@
     "name": "weather-app",
     "version": "0.1.0",
     "private": true,
-    "homepage": "https://russelrudoi.github.io/weather-app",
+    "homepage": "https://russelrudoi.github.io/weather-app/",
     "dependencies": {
         "@emotion/react": "^11.10.8",
         "@emotion/styled": "^11.10.8",
