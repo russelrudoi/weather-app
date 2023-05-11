@@ -1,10 +1,10 @@
-import { FC } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { IWeather } from '../../models/IWeather';
 import { useAppDispatch } from '../../hooks/redux';
-import updateCurrentWeather from '../../store/thunks/updateCurrentWeather';
-import { currentDate } from '../../services/convertTimeService';
-import { removeWeatherItem } from '../../store/slice/currentWeatherSlice';
+import updateCurrentWeather from '../../store/thunks/updateCurrentWeather/updateCurrentWeather';
+import { getCurrentDate } from '../../services/convertTimeService/convertTimeService';
+import { removeWeatherItem } from '../../store/slice/currentWeatherSlice/currentWeatherSlice';
 import { LoadingButton } from '@mui/lab';
 import { Grid, Card, CardMedia, Typography, IconButton } from '@mui/material';
 import { Clear, MoreHoriz, Update, WaterDrop, Air } from '@mui/icons-material';
@@ -18,8 +18,10 @@ interface PropsWeather {
 
 const CardItem: FC<PropsWeather> = ({ weather }) => {
     const dispatch = useAppDispatch();
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handlerUpdateWeather = (id: number) => {
+        setLoading(true);
         dispatch(updateCurrentWeather(id.toString()));
     };
 
@@ -27,8 +29,12 @@ const CardItem: FC<PropsWeather> = ({ weather }) => {
         dispatch(removeWeatherItem(id));
     };
 
+    useEffect(() => {
+        setLoading(false);
+    }, [weather]);
+
     return (
-        <Grid item>
+        <Grid item data-testid={'main-page'}>
             <Card
                 sx={{
                     ...boxStyle,
@@ -116,7 +122,7 @@ const CardItem: FC<PropsWeather> = ({ weather }) => {
                     <Grid item>
                         <LoadingButton
                             onClick={() => handlerUpdateWeather(weather.id)}
-                            loading={weather.isUpdate}
+                            loading={loading}
                             variant='outlined'
                             sx={buttonStyle}
                         >
@@ -124,7 +130,10 @@ const CardItem: FC<PropsWeather> = ({ weather }) => {
                         </LoadingButton>
                     </Grid>
                     <Grid item>
-                        <Link to={`${weather.id}`}>
+                        <Link
+                            to={`${weather.id}`}
+                            data-testid='single-page-link'
+                        >
                             <IconButton
                                 color='success'
                                 sx={{
@@ -142,7 +151,7 @@ const CardItem: FC<PropsWeather> = ({ weather }) => {
                     component='div'
                     sx={{ position: 'absolute', bottom: '5px', opacity: '0.5' }}
                 >
-                    Last update: {currentDate(weather.lastUpdateTime)}
+                    Last update: {getCurrentDate(weather.lastUpdateTime)}
                 </Typography>
             </Card>
         </Grid>

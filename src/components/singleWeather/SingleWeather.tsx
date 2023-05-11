@@ -1,7 +1,7 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { IWeather } from '../../models/IWeather';
-import updateCurrentWeather from '../../store/thunks/updateCurrentWeather';
+import updateCurrentWeather from '../../store/thunks/updateCurrentWeather/updateCurrentWeather';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { Grid } from '@mui/material';
 import Skeleton from '@mui/material/Skeleton';
@@ -16,11 +16,16 @@ const SingleWeather: FC = () => {
         state => state.currentWeatherReducer
     );
     const { pathname } = useLocation();
+    const [loadingUpdate, setLoadingUpdate] = useState<boolean>(false);
 
     const weatherId = pathname.slice(1);
     const weatherItem: IWeather | undefined = weather.find(
         item => item.id === +weatherId
     );
+
+    useEffect(() => {
+        setLoadingUpdate(false);
+    }, [weather]);
 
     useEffect(() => {
         if (!weatherItem) {
@@ -29,11 +34,17 @@ const SingleWeather: FC = () => {
     }, [weatherItem, weatherId, dispatch]);
 
     const handlerUpdateWeather = () => {
+        setLoadingUpdate(true);
         dispatch(updateCurrentWeather(weatherId));
     };
 
     return (
-        <Grid container justifyContent='space-between' rowGap={5}>
+        <Grid
+            container
+            justifyContent='space-between'
+            rowGap={5}
+            data-testid={'single-weather'}
+        >
             <Grid item>
                 {isLoadingWeather && (
                     <Skeleton variant='rounded' width={280} height={230} />
@@ -62,7 +73,7 @@ const SingleWeather: FC = () => {
             </Grid>
             <HourlyWeatherBlock />
             <ButtonBlock
-                isLoading={weatherItem?.isUpdate}
+                isLoading={loadingUpdate}
                 handlerUpdate={handlerUpdateWeather}
             />
         </Grid>

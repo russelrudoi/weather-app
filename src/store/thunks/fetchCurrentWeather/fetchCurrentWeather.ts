@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { WeatherService } from '../../services/WeatherService';
-import { IWeather } from '../../models/IWeather';
+import { WeatherService } from '../../../services/WeatherService';
+import { IWeather } from '../../../models/IWeather';
 
 const fetchCurrentWeather = createAsyncThunk<
     IWeather,

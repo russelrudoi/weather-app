@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { WeatherService } from '../../services/WeatherService';
-import { ICity } from '../../models/ICity';
+import { WeatherService } from '../../../services/WeatherService';
+import { ICity } from '../../../models/ICity';
 
 export const fetchCityListWeather = createAsyncThunk<
     ICity[],

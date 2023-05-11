@@ -4,7 +4,7 @@ import CardList from '../components/cardList/CardList';
 const MainPage: FC = () => {
     return (
         <>
-            <CardList />
+            <CardList data-testid={'main-page'} />
         </>
     );
 };

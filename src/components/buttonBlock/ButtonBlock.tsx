@@ -16,7 +16,7 @@ const ButtonBlock: FC<Props> = ({ isLoading, handlerUpdate }) => {
         <Grid container columnGap={5}>
             <Grid item>
                 <ThemeProvider theme={buttonColor}>
-                    <Link to='/'>
+                    <Link to='/' data-testid={'main-page-link'}>
                         <LoadingButton variant='contained' sx={buttonStyle}>
                             <ArrowBack />
                         </LoadingButton>

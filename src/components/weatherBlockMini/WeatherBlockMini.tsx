@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { IWeather } from '../../models/IWeather';
-import { converTimeZone } from '../../services/convertTimeService';
+import { converTimeZone } from '../../services/convertTimeService/convertTimeService';
 import { Box, Grid, Typography } from '@mui/material';
 import { boxStyle } from '../../styles/theme-style';
 

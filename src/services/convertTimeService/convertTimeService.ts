@@ -21,7 +21,7 @@ export const converTimeZone = (
     }
 };
 
-export const currentDate = (date: string): string => {
+export const getCurrentDate = (date: string): string => {
     const currentDate = new Date(date),
         currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'),
         currentDay = currentDate.getDate().toString().padStart(2, '0'),

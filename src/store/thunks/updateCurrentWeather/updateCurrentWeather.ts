@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { WeatherService } from '../../services/WeatherService';
-import { IWeather } from '../../models/IWeather';
+import { WeatherService } from '../../../services/WeatherService';
+import { IWeather } from '../../../models/IWeather';
 
 const updateCurrentWeather = createAsyncThunk<
     IWeather,
@@ -19,7 +19,7 @@ const updateCurrentWeather = createAsyncThunk<
 
             return weatherData;
         } catch (e) {
-            return thunkAPI.rejectWithValue('Server error');
+            return thunkAPI.rejectWithValue('Server errors');
         }
     }
 );

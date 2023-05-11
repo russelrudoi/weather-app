@@ -1,8 +1,8 @@
 import { AnyAction, PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { fetchCityListWeather } from '../thunks/fetchCityListWeather';
-import { ICity } from '../../models/ICity';
+import { fetchCityListWeather } from '../../thunks/fetchCityListWeather/fetchCityListWeather';
+import { ICity } from '../../../models/ICity';
 
-interface CityList {
+export interface CityList {
     cities: ICity[];
     isLoadingCity: boolean;
     errorCity: string | null;

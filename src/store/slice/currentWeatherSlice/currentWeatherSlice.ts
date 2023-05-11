@@ -1,19 +1,18 @@
 import { AnyAction, PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IWeather } from '../../models/IWeather';
-import fetchCurrentWeather from '../thunks/fetchCurrentWeather';
+import { IWeather } from '../../../models/IWeather';
+import fetchCurrentWeather from '../../thunks/fetchCurrentWeather/fetchCurrentWeather';
 
-import updateCurrentWeather from '../thunks/updateCurrentWeather';
-import addCurrentWeather from '../thunks/addCurrentWeather';
+import updateCurrentWeather from '../../thunks/updateCurrentWeather/updateCurrentWeather';
+import addCurrentWeather from '../../thunks/addCurrentWeather/addCurrentWeather';
 import {
     addToLocalStorage,
     removeFromLocalStorage
-} from '../../services/localStorageService';
+} from '../../../services/localStorageService';
 
-interface CurrentWeather {
+export interface CurrentWeather {
     weather: IWeather[];
     isLoadingNewWeather: boolean;
     isLoadingWeather: boolean;
-    errorAddWeather: string | null;
     errorWeather: string | null;
 }
 
@@ -21,7 +20,6 @@ const initialState: CurrentWeather = {
     weather: [],
     isLoadingNewWeather: false,
     isLoadingWeather: false,
-    errorAddWeather: null,
     errorWeather: null
 };
 
@@ -38,7 +36,6 @@ const currentWeatherSlice = createSlice({
     },
     extraReducers: builder => {
         builder
-
             .addCase(fetchCurrentWeather.pending, state => {
                 state.isLoadingWeather = true;
                 state.errorWeather = null;
@@ -48,23 +45,33 @@ const currentWeatherSlice = createSlice({
                 state.weather.push(action.payload);
                 addToLocalStorage(action.payload.name, action.payload.id);
             })
-            .addCase(updateCurrentWeather.pending, (state, action) => {
-                const index = state.weather.findIndex(
-                    obj => obj.id === +action.meta.arg
-                );
-                state.weather[index].isUpdate = true;
+            .addCase(updateCurrentWeather.pending, state => {
+                state.errorWeather = null;
+                state.isLoadingWeather = true;
             })
             .addCase(updateCurrentWeather.fulfilled, (state, action) => {
-                const index = state.weather.findIndex(
-                    obj => obj.id === action.payload.id
-                );
-                if (index !== -1) {
-                    state.errorWeather = '';
-                    state.weather[index].isUpdate = true;
-                    state.weather[index] = action.payload;
-                }
+                state.isLoadingWeather = false;
+                // const index = state.weather.findIndex(
+                //     obj => obj.id === action.payload.id
+                // );
+                // if (index !== -1) {
+                //     action.payload.isUpdate = true;
+                //     state.weather[index] = action.payload;
+                //     // state.weather[index].isUpdate = true;
+                // } else {
+                //     state.errorWeather = 'Error id';
+                // }
+
+                state.weather = state.weather.map(item => {
+                    if (item.id === action.payload.id) {
+                        action.payload.isUpdate = true;
+                        return action.payload;
+                    }
+                    return item;
+                });
             })
             .addCase(addCurrentWeather.pending, state => {
+                state.isLoadingNewWeather = true;
                 state.errorWeather = null;
             })
             .addCase(addCurrentWeather.fulfilled, (state, action) => {

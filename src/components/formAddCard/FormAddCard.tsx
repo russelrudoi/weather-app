@@ -1,10 +1,10 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { fetchCityListWeather } from '../../store/thunks/fetchCityListWeather';
+import { fetchCityListWeather } from '../../store/thunks/fetchCityListWeather/fetchCityListWeather';
 import { ICity } from '../../models/ICity';
-import addCurrentWeather from '../../store/thunks/addCurrentWeather';
-import { clearList } from '../../store/slice/cityListSlice';
+import addCurrentWeather from '../../store/thunks/addCurrentWeather/addCurrentWeather';
+import { clearList } from '../../store/slice/cityListSlice/cityListSlice';
 import { boxStyle, buttonStyle } from '../../styles/theme-style';
 import {
     Card,
@@ -37,8 +37,10 @@ const FormAddCard: FC = () => {
         reset,
         formState: { errors, isValid }
     } = useForm<FormData>({});
+    const [onButton, setOnButton] = useState<boolean>(false);
 
     const onGetListCity = handleSubmit(data => {
+        setOnButton(true);
         dispatch(fetchCityListWeather(data.cityName));
     });
 
@@ -47,6 +49,10 @@ const FormAddCard: FC = () => {
         dispatch(clearList());
         reset();
     };
+
+    useEffect(() => {
+        setOnButton(false);
+    }, [cities]);
     // const onSubmitCity = (lat: number, lon: number) => {
     //     // lat: (Math.round(lat * 100) / 100).toFixed(2),
     //     //     lon: (Math.round(lon * 100) / 100).toFixed(2)
@@ -115,6 +121,7 @@ const FormAddCard: FC = () => {
                         </Typography>
                         <Grid item mt={5}>
                             <IconButton
+                                disabled={onButton}
                                 type='submit'
                                 color='success'
                                 sx={{
@@ -131,6 +138,7 @@ const FormAddCard: FC = () => {
             {
                 <List>
                     {filterDublicateCity(cities).map(city => {
+                        console.log(city);
                         return (
                             <ListItem
                                 key={`${city.lat}${city.lon}`}
