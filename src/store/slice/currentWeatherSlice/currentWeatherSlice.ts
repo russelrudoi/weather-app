@@ -51,16 +51,6 @@ const currentWeatherSlice = createSlice({
             })
             .addCase(updateCurrentWeather.fulfilled, (state, action) => {
                 state.isLoadingWeather = false;
-                // const index = state.weather.findIndex(
-                //     obj => obj.id === action.payload.id
-                // );
-                // if (index !== -1) {
-                //     action.payload.isUpdate = true;
-                //     state.weather[index] = action.payload;
-                //     // state.weather[index].isUpdate = true;
-                // } else {
-                //     state.errorWeather = 'Error id';
-                // }
 
                 state.weather = state.weather.map(item => {
                     if (item.id === action.payload.id) {

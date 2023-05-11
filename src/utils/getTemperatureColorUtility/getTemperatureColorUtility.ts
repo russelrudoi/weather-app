@@ -120,7 +120,6 @@ const getTemperatureColorUtility = (deg: number, component?: 'border') => {
             green: 250,
             blue: 255
         };
-        // 125, 233, 250
 
         if (deg < 2) {
             let i = 1;

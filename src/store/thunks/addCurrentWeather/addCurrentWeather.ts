@@ -27,30 +27,3 @@ const addCurrentWeather = createAsyncThunk<
 );
 
 export default addCurrentWeather;
-
-// const addCurrentWeather = createAsyncThunk<
-//     IWeather,
-//     Coordinates,
-//     { rejectValue: string }
-// >(
-//     'currentWeather/addCurrentWeather',
-//     async function (payload: Coordinates, thunkAPI) {
-//         try {
-//             console.log('update fetch');
-//             const response =
-//                 await WeatherService.getCurrentWeatherByCoordinates(
-//                     payload.lat,
-//                     payload.lon
-//                 );
-//             const weatherData = response.data;
-
-//             weatherData.lastUpdateTime = new Date().toISOString();
-
-//             return weatherData;
-//         } catch (e) {
-//             return thunkAPI.rejectWithValue('Server error');
-//         }
-//     }
-// );
-
-// export default addCurrentWeather;
