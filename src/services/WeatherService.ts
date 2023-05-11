@@ -1,7 +1,8 @@
 import { AxiosResponse } from 'axios';
 import { IWeather } from '../models/IWeather';
-import { api, apiCityList } from '../axios';
+import { api, apiCityList, apiNew } from '../axios';
 import { ICity } from '../models/ICity';
+import IHourlyWeather from '../models/IHourlyWeather';
 
 export class WeatherService {
     static getCurrentWeatherByName(
@@ -23,5 +24,12 @@ export class WeatherService {
 
     static getListCityByName(name: string): Promise<AxiosResponse<ICity[]>> {
         return apiCityList.get<ICity[]>(`/direct?q=${name}&limit=5`);
+    }
+
+    static getCurrentHourlyWeather(
+        lat: string,
+        lon: string
+    ): Promise<AxiosResponse<IHourlyWeather>> {
+        return apiNew.get<IHourlyWeather>(`/onecall?lat=${lat}&lon=${lon}`);
     }
 }

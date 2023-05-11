@@ -1,4 +1,4 @@
-import { converTimeZone, getCurrentDate } from './convertTimeService';
+import { converTimeZone, getCurrentDate } from './convertTimeUtility';
 
 describe('convert timezone in UTC', () => {
     it('should convert timezone to time format correctly', () => {

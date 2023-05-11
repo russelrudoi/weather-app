@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchCityListWeather } from '../../store/thunks/fetchCityListWeather/fetchCityListWeather';
@@ -25,7 +25,7 @@ type FormData = {
 
 const FormAddCard: FC = () => {
     const dispatch = useAppDispatch();
-    const { cities, errorCity } = useAppSelector(
+    const { cities, errorCity, isLoadingCity } = useAppSelector(
         state => state.cityListReducer
     );
     const { errorWeather } = useAppSelector(
@@ -37,10 +37,8 @@ const FormAddCard: FC = () => {
         reset,
         formState: { errors, isValid }
     } = useForm<FormData>({});
-    const [onButton, setOnButton] = useState<boolean>(false);
 
     const onGetListCity = handleSubmit(data => {
-        setOnButton(true);
         dispatch(fetchCityListWeather(data.cityName));
     });
 
@@ -49,21 +47,6 @@ const FormAddCard: FC = () => {
         dispatch(clearList());
         reset();
     };
-
-    useEffect(() => {
-        setOnButton(false);
-    }, [cities]);
-    // const onSubmitCity = (lat: number, lon: number) => {
-    //     // lat: (Math.round(lat * 100) / 100).toFixed(2),
-    //     //     lon: (Math.round(lon * 100) / 100).toFixed(2)
-    //     const coordinates: Coordinates = {
-    //         lat: lat.toString(),
-    //         lon: lon.toString()
-    //     };
-
-    //     dispatch(addCurrentWeather(coordinates));
-    //     dispatch(clearList());
-    // };
 
     const filterDublicateCity = (cities: ICity[]): ICity[] => {
         const filteredArray = cities.filter(
@@ -121,7 +104,7 @@ const FormAddCard: FC = () => {
                         </Typography>
                         <Grid item mt={5}>
                             <IconButton
-                                disabled={onButton}
+                                disabled={isLoadingCity}
                                 type='submit'
                                 color='success'
                                 sx={{
@@ -138,7 +121,6 @@ const FormAddCard: FC = () => {
             {
                 <List>
                     {filterDublicateCity(cities).map(city => {
-                        console.log(city);
                         return (
                             <ListItem
                                 key={`${city.lat}${city.lon}`}
@@ -149,7 +131,6 @@ const FormAddCard: FC = () => {
                                         },${city.country}`
                                     )
                                 }
-                                // onClick={() => onSubmitCity(city.lat, city.lon)}
                                 disablePadding
                                 sx={{
                                     border: '1px solid rgba(73, 72, 74, 0.5)',

@@ -21,3 +21,17 @@ apiCityList.interceptors.request.use(config => {
     config.url = config.url + '&appid=' + process.env.REACT_APP_API_KEY;
     return config;
 });
+
+export const apiNew = axios.create({
+    baseURL: process.env.REACT_APP_API_NEW
+});
+
+apiNew.interceptors.request.use(config => {
+    config.url =
+        config.url +
+        '&exclude=current,minutely,daily' +
+        '&units=metric' +
+        '&appid=' +
+        process.env.REACT_APP_API_KEY;
+    return config;
+});

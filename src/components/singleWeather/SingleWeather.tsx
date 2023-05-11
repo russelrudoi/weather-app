@@ -71,7 +71,12 @@ const SingleWeather: FC = () => {
                     <WeatherBlockLarge weather={weatherItem} />
                 ) : null}
             </Grid>
-            <HourlyWeatherBlock />
+            {weatherItem ? (
+                <HourlyWeatherBlock
+                    lat={String(weatherItem.coord.lat)}
+                    lon={String(weatherItem.coord.lon)}
+                />
+            ) : null}
             <ButtonBlock
                 isLoading={loadingUpdate}
                 handlerUpdate={handlerUpdateWeather}

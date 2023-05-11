@@ -13,6 +13,7 @@ describe('currentWeatherSlice', () => {
 
     beforeEach(() => {
         mockWeather = {
+            coord: { lon: 18.6464, lat: 54.3521 },
             weather: [
                 {
                     main: 'Clear',

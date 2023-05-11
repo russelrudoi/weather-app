@@ -18,6 +18,7 @@ describe('fetch current weather', () => {
 
     it('should fetch current weather with resolve response', async () => {
         const mockWeather: IWeather = {
+            coord: { lon: 18.6464, lat: 54.3521 },
             weather: [
                 {
                     main: 'Clear',

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { IWeather } from '../../models/IWeather';
 import { useAppDispatch } from '../../hooks/redux';
 import updateCurrentWeather from '../../store/thunks/updateCurrentWeather/updateCurrentWeather';
-import { getCurrentDate } from '../../services/convertTimeService/convertTimeService';
+import { getCurrentDate } from '../../utils/convertTimeUtility/convertTimeUtility';
 import { removeWeatherItem } from '../../store/slice/currentWeatherSlice/currentWeatherSlice';
 import { LoadingButton } from '@mui/lab';
 import { Grid, Card, CardMedia, Typography, IconButton } from '@mui/material';
@@ -131,7 +131,7 @@ const CardItem: FC<PropsWeather> = ({ weather }) => {
                     </Grid>
                     <Grid item>
                         <Link
-                            to={`${weather.id}`}
+                            to={`/${weather.id}`}
                             data-testid='single-page-link'
                         >
                             <IconButton

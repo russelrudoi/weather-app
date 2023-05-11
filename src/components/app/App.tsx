@@ -2,8 +2,8 @@ import { useCallback, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux';
 import fetchCurrentWeather from '../../store/thunks/fetchCurrentWeather/fetchCurrentWeather';
-import { getAllFromLocalStorage } from '../../services/localStorageService';
-import { Container } from '@mui/material';
+import { getAllFromLocalStorage } from '../../utils/localStorageUtility/localStorageUtility';
+import { Container, Typography } from '@mui/material';
 import MainPage from '../../pages/MainPage';
 import SingleWeatherPage from '../../pages/SingleWeatherPage';
 
@@ -25,13 +25,12 @@ const App = () => {
 
     return (
         <Container>
+            <Typography mb={5} variant='h3'>
+                Weather app
+            </Typography>
             <Routes>
-                <Route
-                    path='/'
-                    data-testid='main-page-link'
-                    element={<MainPage />}
-                />
-                <Route path=':id' element={<SingleWeatherPage />} />
+                <Route path='/' element={<MainPage />} />
+                <Route path='/:id' element={<SingleWeatherPage />} />
             </Routes>
         </Container>
     );

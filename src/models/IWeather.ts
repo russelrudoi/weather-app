@@ -1,4 +1,5 @@
 export interface IWeather {
+    coord: { lon: number; lat: number };
     id: number;
     name: string;
     timezone: number;

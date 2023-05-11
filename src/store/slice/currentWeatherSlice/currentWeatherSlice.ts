@@ -7,7 +7,7 @@ import addCurrentWeather from '../../thunks/addCurrentWeather/addCurrentWeather'
 import {
     addToLocalStorage,
     removeFromLocalStorage
-} from '../../../services/localStorageService';
+} from '../../../utils/localStorageUtility/localStorageUtility';
 
 export interface CurrentWeather {
     weather: IWeather[];
